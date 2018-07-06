@@ -1,10 +1,15 @@
 <?php
 
 class Home extends CI_Controller{
+	function __construct()
+	{
+		parent :: __construct();
+		$this->load->helper('url');
+		
+	}
 
 	function index()
 	{
-		$this->load->helper('url');
 
 		$this->load->view('header');
 		$this->load->view('home');
@@ -12,7 +17,6 @@ class Home extends CI_Controller{
 	}
 	function login()
 	{
-		$this->load->helper('url');
 
 		$this->load->view('header');
 		$this->load->view('login');
@@ -20,7 +24,6 @@ class Home extends CI_Controller{
 	}
 	function signup()
 	{
-		$this->load->helper('url');
 
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules("full_name", "Full Name", "required");
@@ -41,10 +44,22 @@ class Home extends CI_Controller{
 		}
 		else
 		{
-			echo "yes";
+			//$_POST
+			$data['full_name']=$this->input->post('full_name');
+			$data['username']=$this->input->post('username');
+			$data['password']=$this->input->post('pass');
+			$data['address']=$this->input->post('add');
+			$data['gender']=$this->input->post('gender');
+			$data['city']=$this->input->post('city');
+			$data['contact']=$this->input->post('contact');
+			$this->load->model('user');
+
+			$this->user->insert($data);
+			redirect("home/login");
 		}
 
 		
 	}
 }
+
 ?>
